@@ -25,15 +25,15 @@
             <p>Join the Excel Mastery Hub to start your journey.</p>
             <form id="reg-form" style="margin-top: 20px; text-align: left;">
                 <div class="form-group" style="margin-bottom: 15px;">
-                    <label style="display: block; margin-bottom: 5px; font-weight: 600;">Full Name:</label>
+                    <label for="reg-name" style="display: block; margin-bottom: 5px; font-weight: 600;">Full Name:</label>
                     <input type="text" id="reg-name" required style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: var(--radius);">
                 </div>
                 <div class="form-group" style="margin-bottom: 15px;">
-                    <label style="display: block; margin-bottom: 5px; font-weight: 600;">WhatsApp Mobile Number:</label>
+                    <label for="reg-phone" style="display: block; margin-bottom: 5px; font-weight: 600;">WhatsApp Mobile Number:</label>
                     <input type="tel" id="reg-phone" placeholder="e.g. 03459572281" required style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: var(--radius);">
                 </div>
                 <div class="form-group" style="margin-bottom: 20px;">
-                    <label style="display: block; margin-bottom: 5px; font-weight: 600;">Set Password:</label>
+                    <label for="reg-password" style="display: block; margin-bottom: 5px; font-weight: 600;">Set Password:</label>
                     <input type="password" id="reg-password" required>
                     <div class="password-strength">
                         <div class="strength-indicator">
@@ -62,7 +62,7 @@
             <p>We have sent a 6-digit OTP to your WhatsApp number <strong id="display-otp-phone"></strong>.</p>
             <form id="otp-form" style="margin-top: 20px; text-align: left;">
                 <div class="form-group" style="margin-bottom: 20px;">
-                    <label style="display: block; margin-bottom: 5px; font-weight: 600;">Enter OTP Code:</label>
+                    <label for="otp-code" style="display: block; margin-bottom: 5px; font-weight: 600;">Enter OTP Code:</label>
                     <input type="text" id="otp-code" placeholder="Enter 6-digit code" required maxlength="6" style="width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: var(--radius); font-size: 1.2rem; text-align: center; letter-spacing: 5px;">
                 </div>
                 <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">Verify & Login</button>
@@ -81,11 +81,11 @@
             <p>Welcome back! Please login to continue.</p>
             <form id="login-form" style="margin-top: 20px; text-align: left;">
                 <div class="form-group" style="margin-bottom: 15px;">
-                    <label style="display: block; margin-bottom: 5px; font-weight: 600;">Phone Number:</label>
+                    <label for="login-phone" style="display: block; margin-bottom: 5px; font-weight: 600;">Phone Number:</label>
                     <input type="tel" id="login-phone" required style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: var(--radius);">
                 </div>
                 <div class="form-group" style="margin-bottom: 20px;">
-                    <label style="display: block; margin-bottom: 5px; font-weight: 600;">Password:</label>
+                    <label for="login-password" style="display: block; margin-bottom: 5px; font-weight: 600;">Password:</label>
                     <input type="password" id="login-password" required style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: var(--radius);">
                 </div>
                 <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">Login</button>
@@ -110,6 +110,7 @@
         <div class="header-center">
             <div class="search-container">
                 <i class="fas fa-search"></i>
+                <label for="search-bar" style="display:none;">Search Topics</label>
                 <input type="text" id="search-bar" placeholder="Search topics...">
             </div>
         </div>
@@ -859,15 +860,15 @@
                         </div>
                         <form id="contact-form">
                             <div class="form-group" style="margin-bottom: 15px;">
-                                <label style="display: block; margin-bottom: 5px; font-weight: 600;">Full Name:</label>
+                                <label for="contact-name" style="display: block; margin-bottom: 5px; font-weight: 600;">Full Name:</label>
                                 <input type="text" id="contact-name" placeholder="Enter your name" required style="width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: var(--radius);">
                             </div>
                             <div class="form-group" style="margin-bottom: 15px;">
-                                <label style="display: block; margin-bottom: 5px; font-weight: 600;">WhatsApp Mobile Number:</label>
+                                <label for="contact-phone" style="display: block; margin-bottom: 5px; font-weight: 600;">WhatsApp Mobile Number:</label>
                                 <input type="tel" id="contact-phone" placeholder="Fetching your number..." readonly style="width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: var(--radius); background: #f9f9f9;">
                             </div>
                             <div class="form-group" style="margin-bottom: 20px;">
-                                <label style="display: block; margin-bottom: 5px; font-weight: 600;">Your Message:</label>
+                                <label for="contact-message" style="display: block; margin-bottom: 5px; font-weight: 600;">Your Message:</label>
                                 <textarea id="contact-message" rows="4" placeholder="How can we help you?" required style="width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: var(--radius); font-family: inherit;"></textarea>
                             </div>
                             <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 15px; font-size: 1.1rem;">
@@ -895,6 +896,7 @@
                             <h2>Student Database (Admin Only)</h2>
                             <div class="search-container">
                                 <i class="fas fa-search"></i>
+                                <label for="admin-user-search" style="display:none;">Search Users</label>
                                 <input type="text" id="admin-user-search" placeholder="Search by name, phone..." oninput="searchUsers()">
                             </div>
                         </div>
@@ -921,6 +923,7 @@
                             <h2>Certificate Records</h2>
                             <div class="search-container">
                                 <i class="fas fa-search"></i>
+                                <label for="admin-search" style="display:none;">Search Certificates</label>
                                 <input type="text" id="admin-search" placeholder="Search by name or date..." oninput="searchRecords()">
                             </div>
                         </div>
@@ -1098,15 +1101,15 @@
             <h2>Change Your Password</h2>
             <form id="change-password-form" style="margin-top: 20px; text-align: left;">
                 <div class="form-group" style="margin-bottom: 15px;">
-                    <label>Old Password:</label>
+                    <label for="old-password">Old Password:</label>
                     <input type="password" id="old-password" required>
                 </div>
                 <div class="form-group" style="margin-bottom: 15px;">
-                    <label>New Password:</label>
+                    <label for="new-password">New Password:</label>
                     <input type="password" id="new-password" required>
                 </div>
                 <div class="form-group" style="margin-bottom: 20px;">
-                    <label>Confirm New Password:</label>
+                    <label for="confirm-new-password">Confirm New Password:</label>
                     <input type="password" id="confirm-new-password" required>
                 </div>
                 <button type="submit" class="btn btn-primary" style="width: 100%;">Update Password</button>
@@ -1122,7 +1125,7 @@
             <p>Enter your registered WhatsApp number to receive an OTP.</p>
             <form id="forgot-password-form" style="margin-top: 20px; text-align: left;">
                 <div class="form-group" style="margin-bottom: 20px;">
-                    <label>WhatsApp Mobile Number:</label>
+                    <label for="forgot-phone">WhatsApp Mobile Number:</label>
                     <input type="tel" id="forgot-phone" required>
                 </div>
                 <button type="submit" class="btn btn-primary" style="width: 100%;">Send OTP</button>
@@ -1138,11 +1141,11 @@
             <p>An OTP has been sent to your WhatsApp. Please enter it below and set a new password.</p>
             <form id="reset-password-otp-form" style="margin-top: 20px; text-align: left;">
                 <div class="form-group" style="margin-bottom: 15px;">
-                    <label>Enter OTP:</label>
+                    <label for="reset-otp-code">Enter OTP:</label>
                     <input type="text" id="reset-otp-code" required>
                 </div>
                 <div class="form-group" style="margin-bottom: 15px;">
-                    <label>New Password:</label>
+                    <label for="reset-new-password">New Password:</label>
                     <input type="password" id="reset-new-password" required>
                 </div>
                 <button type="submit" class="btn btn-primary" style="width: 100%;">Reset Password</button>

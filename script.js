@@ -373,9 +373,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const response = await fetch(url, {
                 method: "POST",
-                headers: { 
-                    "Content-Type": "application/json"
-                },
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload)
             });
             
@@ -383,10 +381,14 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log("UltraMsg API Response:", result);
             
             if (result.sent === "true" || result.id || result.success) {
+                console.log("OTP Sent Successfully!");
                 return true;
+            } else if (result.error) {
+                console.error("UltraMsg API Error Detail:", result.error);
+                throw new Error(result.error);
             } else {
                 // If JSON fails, try Form Data as backup
-                console.log("JSON failed, trying URLSearchParams fallback...");
+                console.log("JSON failed or no success response, trying URLSearchParams fallback...");
                 const params = new URLSearchParams();
                 for (let key in payload) params.append(key, payload[key]);
                 
@@ -396,14 +398,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     body: params
                 });
                 const resultFallback = await responseFallback.json();
-                return (resultFallback.sent === "true" || resultFallback.id);
+                console.log("UltraMsg Fallback Response:", resultFallback);
+                return (resultFallback.sent === "true" || resultFallback.id || resultFallback.success);
             }
         } catch (error) {
-            console.error("WhatsApp API Error:", error);
-            // FINAL FALLBACK: Open WhatsApp manually if API fails on GitHub Pages
+            console.error("WhatsApp API Final Catch Error:", error);
+            // FINAL FALLBACK: Open WhatsApp manually if API fails (e.g. CORS or no credits)
             const waUrl = `https://wa.me/${formattedPhone}?text=${encodeURIComponent(message)}`;
             window.open(waUrl, '_blank');
-            showToast("Opening WhatsApp for OTP...");
+            showToast("Opening WhatsApp manually...");
             return true;
         }
     }

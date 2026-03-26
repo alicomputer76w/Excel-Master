@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excel Mastery Hub - Advanced Excel Course</title>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Scroll Progress Bar -->
+    <div id="scroll-progress"></div>
+    
+    <!-- Toast Container for Notifications -->
+    <div id="toast-container"></div>
+
+    <!-- User Registration Modal -->
+    <div id="user-reg-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeRegModal()">&times;</span>
+            <h2>Create Your Student Account</h2>
+            <p>Join the Excel Mastery Hub to start your journey.</p>
+            <form id="reg-form" style="margin-top: 20px; text-align: left;">
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600;">Full Name:</label>
+                    <input type="text" id="reg-name" required style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: var(--radius);">
+                </div>
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600;">WhatsApp Mobile Number:</label>
+                    <input type="tel" id="reg-phone" placeholder="e.g. 03459572281" required style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: var(--radius);">
+                </div>
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600;">Set Password:</label>
+                    <input type="password" id="reg-password" required>
+                    <div class="password-strength">
+                        <div class="strength-indicator">
+                            <div id="strength-bar" class="strength-bar"></div>
+                        </div>
+                        <div id="strength-text" class="strength-text"></div>
+                    </div>
+                    <ul class="password-requirements">
+                        <li id="req-length">Minimum 8 characters</li>
+                        <li id="req-uppercase">1 Uppercase letter</li>
+                        <li id="req-lowercase">1 Lowercase letter</li>
+                        <li id="req-number">1 Number</li>
+                        <li id="req-special">1 Special character (!@#$%)</li>
+                    </ul>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">Send OTP on WhatsApp</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- OTP Verification Modal -->
+    <div id="otp-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeOtpModal()">&times;</span>
+            <h2>Verify Your Number</h2>
+            <p>We have sent a 6-digit OTP to your WhatsApp number <strong id="display-otp-phone"></strong>.</p>
+            <form id="otp-form" style="margin-top: 20px; text-align: left;">
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600;">Enter OTP Code:</label>
+                    <input type="text" id="otp-code" placeholder="Enter 6-digit code" required maxlength="6" style="width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: var(--radius); font-size: 1.2rem; text-align: center; letter-spacing: 5px;">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">Verify & Login</button>
+                <p style="margin-top: 15px; text-align: center; font-size: 0.9rem;">
+                    Didn't receive code? <a href="#" onclick="resendOtp()" style="color: var(--primary-color); font-weight: 600;">Resend Code</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeLoginModal()">&times;</span>
+            <h2>Student Login</h2>
+            <p>Welcome back! Please login to continue.</p>
+            <form id="login-form" style="margin-top: 20px; text-align: left;">
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600;">Phone Number:</label>
+                    <input type="tel" id="login-phone" required style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: var(--radius);">
+                </div>
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600;">Password:</label>
+                    <input type="password" id="login-password" required style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: var(--radius);">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">Login</button>
+                <p style="margin-top: 15px; text-align: center; font-size: 0.9rem;">
+                    Don't have an account? <a href="#" onclick="openRegModal()" style="color: var(--primary-color); font-weight: 600;">Register here</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-left">
+            <button id="sidebar-toggle" class="sidebar-toggle" style="display: none;">
+                <i class="fas fa-bars"></i>
+            </button>
+            <a href="index.html" class="logo" style="text-decoration: none;">
+                <i class="fas fa-file-excel"></i>
+                <span>Excel Mastery Hub</span>
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <i class="fas fa-search"></i>
+                <input type="text" id="search-bar" placeholder="Search topics...">
+            </div>
+        </div>
+        <div class="header-right">
+            <nav class="top-nav">
+                <a href="index.html" class="top-nav-link">Home</a>
+                <a href="videos.html" target="_blank" class="top-nav-link"><i class="fas fa-video"></i> Video Courses</a>
+                <a href="#module-resources" class="top-nav-link" onclick="scrollToModule('module-resources')">Resources</a>
+                <a href="#contact-section" class="top-nav-link" onclick="scrollToSection('contact-section')">Contact</a>
+            </nav>
+            <button id="theme-toggle" class="theme-toggle" title="Toggle Dark/Light Mode">
+                <i class="fas fa-moon"></i>
+            </button>
+            <div id="user-profile" class="user-profile" style="display: none;">
+                <button class="profile-btn" onclick="toggleUserPanel()">
+                    <i class="fas fa-user-circle"></i>
+                    <span id="user-display-name">Student</span>
+                </button>
+                <div id="user-panel" class="user-panel-dropdown">
+                    <div class="user-panel-header">
+                        <strong id="panel-user-name">Student Name</strong>
+                        <span id="panel-user-phone">03459572281</span>
+                    </div>
+                    <div class="user-panel-body">
+                        <a href="#" class="panel-link" onclick="showSection('module-account-settings'); toggleUserPanel()"><i class="fas fa-cog"></i> Account Settings</a>
+                        <a href="#" class="panel-link" onclick="showSection('module-my-submissions'); toggleUserPanel()"><i class="fas fa-history"></i> My Submissions</a>
+                        <a href="#" class="panel-link" onclick="logoutUser()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+            </div>
+            <button id="login-nav-btn" class="btn btn-primary" onclick="openLoginModal()">Login</button>
+            <div class="progress-info">
+                <span id="overall-progress-text">0% Completed</span>
+                <div class="progress-bar-container">
+                    <div id="overall-progress-bar" class="progress-bar"></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <nav class="nav-menu">
+                <div class="nav-section">
+                    <h3 class="nav-title">Course Modules</h3>
+                    <ul id="module-list">
+                        <li class="nav-item">
+                            <a href="#module-0" class="nav-link active">
+                                <i class="fas fa-info-circle"></i>
+                                <span>Intro to Excel</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#module-1" class="nav-link">
+                                <i class="fas fa-calculator"></i>
+                                <span>Advanced Formulas</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#module-2" class="nav-link">
+                                <i class="fas fa-database"></i>
+                                <span>Data Management</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#module-3" class="nav-link">
+                                <i class="fas fa-paint-roller"></i>
+                                <span>Conditional Formatting</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#module-4" class="nav-link">
+                                <i class="fas fa-table"></i>
+                                <span>Pivot Tables</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#module-5" class="nav-link">
+                                <i class="fas fa-chart-line"></i>
+                                <span>Charts & Dashboards</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#module-6" class="nav-link">
+                                <i class="fas fa-bolt"></i>
+                                <span>Excel Automation</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#module-7" class="nav-link">
+                                <i class="fas fa-layer-group"></i>
+                                <span>Power Tools</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#module-8" class="nav-link">
+                                <i class="fas fa-briefcase"></i>
+                                <span>Job Use Cases</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#module-quiz" class="nav-link">
+                                <i class="fas fa-question-circle"></i>
+                                <span>Final Assessment</span>
+                            </a>
+                        </li>
+                        <li class="nav-item" id="admin-nav-item" style="display: none;">
+                            <a href="#module-admin" class="nav-link">
+                                <i class="fas fa-user-shield"></i>
+                                <span>Admin Records</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Content Area -->
+        <main class="content expanded">
+            <div id="content-container">
+                <!-- Landing Page (Visible when not logged in) -->
+                <section id="landing-page" class="module-content active">
+                    <div class="hero-section">
+                        <h1>Unlock Your Potential with <br><span style="color: #ffd700;">Advanced Excel Mastery</span></h1>
+                        <p>From Basics to Professional Dashboards - The Only Course You Need to Become an Excel Expert.</p>
+                        <div class="hero-buttons">
+                            <button class="btn btn-primary btn-lg" onclick="openRegModal()"><i class="fas fa-rocket"></i> Start Learning Now</button>
+                            <button class="btn btn-secondary btn-lg" onclick="scrollToSection('excel-features')">Explore Course</button>
+                        </div>
+                    </div>
+
+                    <div id="excel-features" class="stats-grid">
+                        <div class="stat-card">
+                            <i class="fas fa-calculator"></i>
+                            <h3>Advanced Formulas</h3>
+                            <p>Master VLOOKUP, XLOOKUP, INDEX-MATCH, and Nested IFs with real-world scenarios.</p>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-chart-pie"></i>
+                            <h3>Dynamic Dashboards</h3>
+                            <p>Create professional, interactive dashboards that impress managers and clients.</p>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-bolt"></i>
+                            <h3>Process Automation</h3>
+                            <p>Learn Power Query and Macros to automate repetitive tasks and save hours daily.</p>
+                        </div>
+                    </div>
+
+                    <div class="topic-card text-center" style="background: linear-gradient(rgba(16, 124, 65, 0.05), rgba(16, 124, 65, 0.1)); border: none;">
+                        <h2 style="margin-bottom: 1.5rem;">Why Join Excel Mastery Hub?</h2>
+                        <div class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+                            <div>
+                                <h4 style="font-size: 2rem; color: var(--primary-color);">50+</h4>
+                                <p>Interactive Lessons</p>
+                            </div>
+                            <div>
+                                <h4 style="font-size: 2rem; color: var(--primary-color);">100%</h4>
+                                <p>Practical Approach</p>
+                            </div>
+                            <div>
+                                <h4 style="font-size: 2rem; color: var(--primary-color);">FREE</h4>
+                                <p>Practice Files</p>
+                            </div>
+                            <div>
+                                <h4 style="font-size: 2rem; color: var(--primary-color);">PRO</h4>
+                                <p>Certification</p>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary btn-lg mt-3" onclick="openRegModal()">Join Now for Free</button>
+                    </div>
+                </section>
+
+                <!-- Welcome Section (Visible after login) -->
+                <section id="welcome-section" class="module-content">
+                    <div class="hero-section">
+                        <h1 id="typewriter-text">Master Advanced Excel</h1><span class="cursor"></span>
+                        <p>Learn complex formulas, data analysis, automation, and create powerful dashboards.</p>
+                        <div class="hero-buttons">
+                            <button class="btn btn-primary btn-lg" onclick="scrollToModule('module-1')">Start Learning</button>
+                            <a href="#" class="btn btn-secondary btn-lg"><i class="fas fa-download"></i> Download Practice Files</a>
+                        </div>
+                    </div>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <i class="fas fa-book"></i>
+                            <h3>8 Modules</h3>
+                            <p>Comprehensive Lessons</p>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-code"></i>
+                            <h3>50+ Formulas</h3>
+                            <p>Real-world examples</p>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-tasks"></i>
+                            <h3>Interactive</h3>
+                            <p>Practice exercises</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Module 0: Introduction to MS Excel -->
+                <section id="module-0" class="module-content">
+                    <div class="topic-card">
+                        <div class="topic-header">
+                            <h2>0.1 Introduction to MS Excel</h2>
+                            <span class="badge">Must Read</span>
+                        </div>
+                        <p class="intro">MS Excel is a spreadsheet program used for data storage, calculations, and analysis. (Excel ek spreadsheet program hai jo data save karne aur calculations ke liye use hota hai).</p>
+                        
+                        <div class="details">
+                            <h3>How to Open Excel?</h3>
+                            <ul>
+                                <li>Press <strong>Win + R</strong>, type <code>excel</code> and hit Enter.</li>
+                                <li>Search 'Excel' in Start Menu.</li>
+                            </ul>
+                            
+                            <h3>The Excel Interface (User Interface)</h3>
+                            <p>Understanding the interface is the first step: (Excel interface ko samajhna pehla qadam hai):</p>
+                            <ul>
+                                <li><strong>Title Bar:</strong> Shows the workbook name.</li>
+                                <li><strong>Quick Access Toolbar:</strong> Common buttons like Save, Undo, Redo.</li>
+                                <li><strong>Ribbon:</strong> The top menu containing Tabs and Groups.</li>
+                                <li><strong>Tabs:</strong> Home, Insert, Page Layout, etc.</li>
+                                <li><strong>Groups:</strong> Commands related to each tab (e.g. Font, Alignment).</li>
+                                <li><strong>Formula Bar:</strong> Shows what is inside a cell.</li>
+                                <li><strong>Name Box:</strong> Shows the address of the selected cell (e.g. A1).</li>
+                            </ul>
+                            
+                            <h3>Basic Terminology</h3>
+                            <ul>
+                                <li><strong>Workbook:</strong> An Excel file (collection of sheets).</li>
+                                <li><strong>Worksheet:</strong> A single page in a workbook.</li>
+                                <li><strong>Column:</strong> Vertical lines labeled A, B, C...</li>
+                                <li><strong>Row:</strong> Horizontal lines labeled 1, 2, 3...</li>
+                                <li><strong>Cell:</strong> Intersection of a Row and Column (e.g. B5).</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="practice-section">
+                            <h4>Important Shortcuts (Start to End)</h4>
+                            <div class="excel-table-container">
+                                <table class="excel-table">
+                                    <thead>
+                                        <tr><th>Shortcut</th><th>Action</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td>Ctrl + N</td><td>New Workbook</td></tr>
+                                        <tr><td>Ctrl + O</td><td>Open File</td></tr>
+                                        <tr><td>Ctrl + S</td><td>Save File</td></tr>
+                                        <tr><td>Ctrl + P</td><td>Print</td></tr>
+                                        <tr><td>Ctrl + Z</td><td>Undo</td></tr>
+                                        <tr><td>Ctrl + Y</td><td>Redo</td></tr>
+                                        <tr><td>Ctrl + F</td><td>Find</td></tr>
+                                        <tr><td>Ctrl + H</td><td>Replace</td></tr>
+                                        <tr><td>Ctrl + Arrow</td><td>Go to end of data</td></tr>
+                                        <tr><td>Ctrl + Shift + L</td><td>Apply/Remove Filter</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <div class="submit-section" style="margin-top: 20px;">
+                            <a href="#" class="btn btn-practice" onclick="downloadAndPromptSubmit('Basic_Intro_Practice.xlsx')"><i class="fas fa-file-excel"></i> Download Practice File</a>
+                            <button class="btn btn-secondary mt-2" onclick="submitViaWhatsApp('Introduction to Excel')"><i class="fab fa-whatsapp"></i> Submit Practice File</button>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Module 1: Advanced Formulas & Functions -->
+                <section id="module-1" class="module-content">
+                    <div class="topic-card">
+                        <div class="topic-header">
+                            <h2>1.1 IF & Nested IF (Logical Tests)</h2>
+                            <span class="badge">Essential</span>
+                        </div>
+                        <p class="intro">The IF function is the foundation of logical decision-making in Excel. It checks a condition and returns one value if TRUE, and another if FALSE. (IF function Excel mein faisla lene ke liye istemal hota hai. Agar condition sahi ho toh ek result, warna doosra). </p>
+                        
+                        <div class="details">
+                            <p><strong>Detailed Explanation:</strong> In advanced reporting, we often need multiple IFs nested together. This is called a "Nested IF". However, in modern Excel, you can also use the <code>IFS</code> function for cleaner code.</p>
+                            <ul>
+                                <li><strong>Syntax:</strong> <code>=IF(logical_test, value_if_true, [value_if_false])</code></li>
+                                <li><strong>Scenario:</strong> You are calculating a sales commission. If sales > $5000, 10% commission; otherwise, 5%.</li>
+                            </ul>
+                        </div>
+
+                        <div class="formula-box">
+                            <span>=IF(B2>5000, B2*10%, B2*5%)</span>
+                            <button class="copy-btn" onclick="copyFormula(this, '=IF(B2>5000, B2*10%, B2*5%)')"><i class="fas fa-copy"></i></button>
+                        </div>
+
+                        <div class="nested-if">
+                            <h3>Nested IF Example (Multiple Grades)</h3>
+                            <p>Multiple conditions: (Jab ek se zyada conditions hon)</p>
+                            <div class="formula-box">
+                                <span>=IF(B2>=90, "A+", IF(B2>=80, "A", IF(B2>=70, "B", "C")))</span>
+                                <button class="copy-btn" onclick="copyFormula(this, '=IF(B2>=90, \"A+\", IF(B2>=80, \"A\", IF(B2>=70, \"B\", \"C\")))')"><i class="fas fa-copy"></i></button>
+                            </div>
+                        </div>
+
+                        <div class="practice-section">
+                            <h4>Practice Exercise</h4>
+                            <p>Write a formula to check student marks. If marks >= 33 return "Pass", else "Fail".</p>
+                            <button class="btn btn-primary solution-toggle" onclick="toggleSolution('sol-1')">View Solution</button>
+                            <div id="sol-1" class="solution-content">
+                                <strong>Solution:</strong> <code>=IF(A2>=33, "Pass", "Fail")</code>
+                            </div>
+                        </div>
+                        <a href="#" class="btn btn-practice" onclick="downloadAndPromptSubmit('IF_Practice.xlsx')"><i class="fas fa-file-excel"></i> Download Practice File for 1.1</a>
+                        <button class="btn btn-secondary mt-2" onclick="submitViaWhatsApp('IF & Nested IF')"><i class="fab fa-whatsapp"></i> Submit Practice File</button>
+                    </div>
+
+                    <div class="topic-card">
+                        <div class="topic-header">
+                            <h2>1.2 VLOOKUP & XLOOKUP (Lookup Powerhouse)</h2>
+                        </div>
+                        <p class="intro">VLOOKUP (Vertical Lookup) is used to find data in a large table based on a unique ID. XLOOKUP is the modern, faster, and more flexible version. (VLOOKUP kisi bade table se data dhoondne ke liye use hota hai. XLOOKUP iska naya aur behtar version hai).</p>
+                        
+                        <div class="details">
+                            <p><strong>Why XLOOKUP is better?</strong> Unlike VLOOKUP, XLOOKUP doesn't care if the column you're looking for is on the left or right. It also handles "Not Found" errors automatically.</p>
+                        </div>
+
+                        <div class="formula-box">
+                            <span>=XLOOKUP(lookup_value, lookup_array, return_array, [if_not_found])</span>
+                            <button class="copy-btn" onclick="copyFormula(this, '=XLOOKUP(A2, Employees!A:A, Employees!B:B, \"Not Found\")')"><i class="fas fa-copy"></i></button>
+                        </div>
+
+                        <div class="tips">
+                            <strong>Common Mistake:</strong> In VLOOKUP, if you forget <code>FALSE</code> at the end, Excel might return the wrong data. Always use <code>0</code> or <code>FALSE</code> for exact matches.
+                        </div>
+                        <a href="#" class="btn btn-practice" onclick="downloadAndPromptSubmit('VLOOKUP_Practice.xlsx')"><i class="fas fa-file-excel"></i> Download Practice File for 1.2</a>
+                        <button class="btn btn-secondary mt-2" onclick="submitViaWhatsApp('VLOOKUP & XLOOKUP')"><i class="fab fa-whatsapp"></i> Submit Practice File</button>
+                    </div>
+                    
+                    <div class="topic-card">
+                        <div class="topic-header">
+                            <h2>1.3 INDEX + MATCH (The Professional Choice)</h2>
+                        </div>
+                        <p class="intro">INDEX + MATCH is often preferred by advanced users because it's more stable and efficient than VLOOKUP. (Advanced users VLOOKUP ki jagah INDEX+MATCH use karte hain kyunke yeh zyada fast aur flexible hai).</p>
+                        
+                        <div class="details">
+                            <p><strong>How it works:</strong> MATCH finds the position (row number), and INDEX pulls the data from that position.</p>
+                        </div>
+
+                        <div class="formula-box">
+                            <span>=INDEX(SalaryRange, MATCH(EmpID, IDRange, 0))</span>
+                            <button class="copy-btn" onclick="copyFormula(this, '=INDEX(C2:C100, MATCH(E2, A2:A100, 0))')"><i class="fas fa-copy"></i></button>
+                        </div>
+                        <a href="#" class="btn btn-practice" onclick="downloadAndPromptSubmit('INDEX_MATCH_Practice.xlsx')"><i class="fas fa-file-excel"></i> Download Practice File for 1.3</a>
+                        <button class="btn btn-secondary mt-2" onclick="submitViaWhatsApp('INDEX + MATCH')"><i class="fab fa-whatsapp"></i> Submit Practice File</button>
+                    </div>
+
+                    <div class="topic-card">
+                        <div class="topic-header">
+                            <h2>1.4 IFERROR (Clean Reporting)</h2>
+                        </div>
+                        <p class="intro">Tired of seeing #N/A or #DIV/0! errors? Use IFERROR to show a clean message or a zero instead. (Galti chupane ya behtar message dikhane ke liye IFERROR use karein).</p>
+                        <div class="formula-box">
+                            <span>=IFERROR(A2/B2, 0)</span>
+                            <button class="copy-btn" onclick="copyFormula(this, '=IFERROR(A2/B2, 0)')"><i class="fas fa-copy"></i></button>
+                        </div>
+                        <a href="#" class="btn btn-practice" onclick="downloadAndPromptSubmit('IFERROR_Practice.xlsx')"><i class="fas fa-file-excel"></i> Download Practice File for 1.4</a>
+                        <button class="btn btn-secondary mt-2" onclick="submitViaWhatsApp('IFERROR')"><i class="fab fa-whatsapp"></i> Submit Practice File</button>
+                    </div>
+
+                    <div class="topic-card">
+                        <div class="topic-header">
+                            <h2>1.5 Text Functions (TEXT, LEFT, RIGHT, MID, CONCAT)</h2>
+                        </div>
+                        <p class="intro">Clean and join text strings. (Text ko saaf karne aur jodne ke liye).</p>
+                        <div class="formula-box">
+                            <span>=CONCAT(FirstName, " ", LastName)</span>
+                            <button class="copy-btn" onclick="copyFormula(this, '=CONCAT(A2, \" \", B2)')"><i class="fas fa-copy"></i></button>
+                        </div>
+                    <div class="topic-card">
+                        <div class="topic-header">
+                            <h2>1.6 SUMIF & SUMIFS (Conditional Sums)</h2>
+                        </div>
+                        <p class="intro">SUMIF adds up cells that meet one condition. SUMIFS is more powerful and can handle multiple conditions. (SUMIF ek condition par sum karta hai, jabke SUMIFS multiple conditions par).</p>
+                        <div class="details">
+                            <p><strong>Scenario:</strong> You want to find the total sales for the "East" region. Use SUMIF. If you want total sales for "East" region for "John" only, use SUMIFS.</p>
+                        </div>
+                        <div class="formula-box">
+                            <span>=SUMIFS(sum_range, criteria_range1, criteria1, [criteria_range2, criteria2], ...)</span>
+                            <button class="copy-btn" onclick="copyFormula(this, '=SUMIFS(C:C, A:A, \"East\", B:B, \"John\")')"><i class="fas fa-copy"></i></button>
+                        </div>
+                        <div class="submit-section" style="margin-top: 20px;">
+                            <a href="#" class="btn btn-practice" onclick="downloadAndPromptSubmit('SUMIFS_Practice.xlsx')"><i class="fas fa-file-excel"></i> Download Practice File</a>
+                            <button class="btn btn-secondary mt-2" onclick="submitViaWhatsApp('SUMIFS')"><i class="fab fa-whatsapp"></i> Submit Practice File</button>
+                        </div>
+                    </div>
+
+                    <div class="topic-card">
+                        <div class="topic-header">
+                            <h2>1.7 COUNTIF & COUNTIFS (Conditional Counting)</h2>
+                        </div>
+                        <p class="intro">Similar to SUMIF/SUMIFS, but they count the number of cells that meet conditions instead of summing them. (Yeh formulas cells ko ginte hain, sum nahi karte).</p>
+                        <div class="formula-box">
+                            <span>=COUNTIFS(criteria_range1, criteria1, [criteria_range2, criteria2], ...)</span>
+                            <button class="copy-btn" onclick="copyFormula(this, '=COUNTIFS(A:A, \">500\", B:B, \"Active\")')"><i class="fas fa-copy"></i></button>
+                        </div>
+                        <div class="submit-section" style="margin-top: 20px;">
+                            <a href="#" class="btn btn-practice" onclick="downloadAndPromptSubmit('COUNTIFS_Practice.xlsx')"><i class="fas fa-file-excel"></i> Download Practice File</a>
+                            <button class="btn btn-secondary mt-2" onclick="submitViaWhatsApp('COUNTIFS')"><i class="fab fa-whatsapp"></i> Submit Practice File</button>
+                        </div>
+                    </div>
+
+                    <div class="topic-card">
+                        <div class="topic-header">
+                            <h2>1.8 OFFSET & INDIRECT (Dynamic Ranges)</h2>
+                        </div>
+                        <p class="intro">OFFSET returns a reference to a range. INDIRECT lets you build a cell reference from text. (Yeh dynamic reports banane ke liye bohot powerful hain).</p>
+                        <div class="details">
+                            <p><strong>OFFSET Use Case:</strong> Creating a chart that automatically updates when you add new monthly data.</p>
+                        </div>
+                        <div class="formula-box">
+                            <span>=OFFSET(start_cell, rows_to_move, cols_to_move, [height], [width])</span>
+                            <button class="copy-btn" onclick="copyFormula(this, '=OFFSET(A1, 5, 2, 10, 1)')"><i class="fas fa-copy"></i></button>
+                        </div>
+                        <div class="submit-section" style="margin-top: 20px;">
+                            <a href="#" class="btn btn-practice" onclick="downloadAndPromptSubmit('OFFSET_Practice.xlsx')"><i class="fas fa-file-excel"></i> Download Practice File</a>
+                            <button class="btn btn-secondary mt-2" onclick="submitViaWhatsApp('OFFSET & INDIRECT')"><i class="fab fa-whatsapp"></i> Submit Practice File</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Module 2: Data Analysis & Management -->
+                <section id="module-2" class="module-content">
+                    <div class="topic-card">
+                        <div class="topic-header">
+                            <h2>2.1 Advanced Sorting & Filter</h2>
+                        </div>
+                        <p class="intro">Sorting helps you organize your data, but Advanced Filter allows you to perform complex extracts. (Sorting data ko tarteeb dene ke liye hai, lekin Advanced Filter se aap mushkil conditions par data extract kar sakte hain).</p>
+                        <div class="details">
+                            <p><strong>Advanced Filter Tip:</strong> You can use Advanced Filter to extract "Unique Records Only" to a new location. This is great for creating unique lists of customers or products.</p>
+                            <strong>Steps to use Advanced Filter:</strong>
+                            <ol>
+                                <li>Select your data range.</li>
+                                <li>Go to <strong>Data</strong> tab.</li>
+                                <li>Click <strong>Advanced</strong> in Sort & Filter group.</li>
+                                <li>Specify the <strong>Criteria Range</strong> to filter specific rows.</li>
+                            </ol>
+                        </div>
+                        <a href="#" class="btn btn-practice"><i class="fas fa-file-excel"></i> Download Practice File for 2.1</a>
+                    </div>
+
+                    <div class="topic-card">
+                        <div class="topic-header">
+                            <h2>2.2 Data Validation & Dynamic Dropdowns</h2>
+                        </div>
+                        <p class="intro">Data Validation ensures that users only enter correct data. Dynamic dropdowns update themselves when you add new items to your list. (Data Validation se user ghalat entry nahi kar sakta. Dynamic dropdowns khud-ba-khud update hote hain).</p>
+                        <div class="details">
+                            <p><strong>How to make it Dynamic?</strong> Use Excel Tables (Ctrl+T) for your source list. When you add a row to the table, the dropdown will show it automatically.</p>
+                            <h4>How to create:</h4>
+                            <p>Data Tab > Data Validation > Allow: <strong>List</strong> > Source: (Select your items range)</p>
+                        </div>
+                        <a href="#" class="btn btn-practice"><i class="fas fa-file-excel"></i> Download Practice File for 2.2</a>
+                    </div>
+
+                    <div class="topic-card">
+                        <div class="topic-header">
+                            <h2>2.3 Remove Duplicates & Text to Columns</h2>
+                        </div>
+                        <p class="intro">Essential tools for data cleaning. Split names or fix messy data in seconds. (Data saaf karne ke liye Remove Duplicates aur Text to Columns bohot zaroori hain).</p>
+                        <div class="details">
+                            <p><strong>Text to Columns:</strong> Use this when you have "First Last" in one cell and want to split them into two. Select "Delimited" and choose "Space".</p>
+                        </div>
+                        <a href="#" class="btn btn-practice"><i class="fas fa-file-excel"></i> Download Practice File for 2.3</a>
+                    </div>
+                </section>
+
+                <!-- Module 3: Conditional Formatting -->
+                <section id="module-3" class="module-content">
+                    <div class="topic-card">
+                        <div class="topic-header">
+                            <h2>3.1 Formula-based Conditional Formatting</h2>
+                        </div>
+                        <p class="intro">Highlight cells or entire rows based on custom formulas. (Formula use kar ke cell ya poori row ko color karein).</p>
+                        <div class="details">
+                            <p><strong>Advanced Row Highlighting:</strong> To highlight an entire row when status in column C is "Done", select the whole table, go to Conditional Formatting > New Rule > Use a formula, and enter <code>=$C2="Done"</code>. The <code>$</code> before the C is the key!</p>
+                        </div>
+                        <div class="formula-box">
+                            <span>=$C2="Delayed"</span>
+                            <button class="copy-btn" onclick="copyFormula(this, '=$C2=\"Delayed\"')"><i class="fas fa-copy"></i></button>
+                        </div>
+                        <a href="#" class="btn btn-practice"><i class="fas fa-file-excel"></i> Download Practice File for 3.1</a>
+                    </div>
+
+                    <div class="topic-card">
+                        <div class="topic-header">
+                            <h2>3.2 Color Scales, Data Bars & Icon Sets</h2>
+                        </div>
+                        <p class="intro">Visualize data intensity instantly without formulas. (Data ki values ko colors aur bars se dikhayein).</p>
+                        <div class="details">
+                            <p><strong>Data Bars:</strong> Great for showing progress or percentage completion in a cell. The bar fills up more as the number increases.</p>
+                            <strong>Steps:</strong> Home Tab > Conditional Formatting > <strong>Icon Sets</strong>.
+                        </div>
+                        <a href="#" class="btn btn-practice"><i class="fas fa-file-excel"></i> Download Practice File for 3.2</a>
+                    </div>
+                </section>
+
+                <!-- Module 4: Pivot Tables -->
+                <section id="module-4" class="module-content">
+                    <div class="topic-card">
+                        <div class="topic-header">
+                            <h2>4.1 Pivot Table & Slicers (Data Analysis)</h2>
+                        </div>
+                        <p class="intro">Pivot tables are the most powerful data analysis tool in Excel. They let you summarize thousands of rows into a simple report. (Hazaron rows ka data chand seconds mein summarize karein).</p>
+                        <div class="details">
+                            <p><strong>Grouping Data:</strong> You can group dates into Months, Quarters, or Years. This is essential for time-based reports.</p>
+                            <p><strong>Calculated Fields:</strong> Add custom formulas inside your Pivot Table, like Profit = Sales - Cost.</p>
+                            <h4>Grouping Data:</h4>
+                            <p>Right-click any date field in Pivot Table > <strong>Group</strong> > Select Months/Years.</p>
+                        </div>
+                        <div class="formula-box">
+                             <span>Calculated Field: =Sales * 0.10</span>
+                        </div>
+                        <a href="#" class="btn btn-practice"><i class="fas fa-file-excel"></i> Download Practice File for 4.1</a>
+                    </div>
+                </section>
+
+                <!-- Module 5: Charts & Dashboards -->
+                <section id="module-5" class="module-content">
+                    <div class="topic-card">
+                        <div class="topic-header">
+                            <h2>5.1 Dynamic & Combo Charts</h2>
+                        </div>
+                        <p class="intro">Charts that update automatically as data changes. Combo charts let you show different types of data (e.g., Bar and Line) in one chart. (Aisay charts jo data update hone par khud update hon).</p>
+                        <div class="details">
+                            <p><strong>Secondary Axis:</strong> When showing Sales ($) and Growth (%) together, use a Secondary Axis for the percentage. This makes the chart much easier to read.</p>
+                        </div>
+                        <a href="#" class="btn btn-practice" onclick="downloadAndPromptSubmit('TEXT_Practice.xlsx')"><i class="fas fa-file-excel"></i> Download Practice File for 1.5</a>
+                        <button class="btn btn-secondary mt-2" onclick="submitViaWhatsApp('Text Functions')"><i class="fab fa-whatsapp"></i> Submit Practice File</button>
+                    </div>
+                    <div class="topic-card">
+                        <div class="topic-header">
+                            <h2>5.2 KPI Dashboards (Professional Reporting)</h2>
+                        </div>
+                        <p class="intro">Key Performance Indicators (KPIs) help track business goals. Combine them into one dashboard with slicers. (Business goals ko track karne ke liye KPI Dashboard banayein).</p>
+                        <div class="details">
+                            <p><strong>Dashboard Best Practices:</strong> Keep it simple. Use consistent colors. Make sure the most important numbers are at the top left. Use Slicers to allow users to filter by Region or Month.</p>
+                        </div>
+                        <a href="#" class="btn btn-practice"><i class="fas fa-file-excel"></i> Download Practice File for 5.2</a>
+                    </div>
+                </section>
+
+                <!-- Module 6: Excel Automation -->
+                <section id="module-6" class="module-content">
+                    <div class="topic-card">
+                        <div class="topic-header">
+                            <h2>6.1 Power Query (The Data Cleaning King)</h2>
+                        </div>
+                        <p class="intro">Power Query is the most important automation tool in modern Excel. It records your data cleaning steps so you can refresh them with one click. (Data cleaning aur import karne ka sab se behtareen tariqa).</p>
+                        <div class="details">
+                            <p><strong>Unpivot Columns:</strong> If you have data spread across columns (Jan, Feb, Mar...) and want it in one column, use "Unpivot". This is a life-saver for data analysts.</p>
+                            <strong>How to use Power Query:</strong>
+                            <ol>
+                                <li>Data Tab > Get Data > From File > From Workbook.</li>
+                                <li>Click <strong>Transform Data</strong> to open Power Query Editor.</li>
+                                <li>Apply steps like Remove Columns, Filter, Split.</li>
+                                <li>Click <strong>Close & Load</strong>.</li>
+                            </ol>
+                        </div>
+                        <a href="#" class="btn btn-practice"><i class="fas fa-file-excel"></i> Download Practice File for 6.1</a>
+                    </div>
+
+                    <div class="topic-card">
+                        <div class="topic-header">
+                            <h2>6.2 Import from Web & CSV</h2>
+                        </div>
+                        <p class="intro">Import live data directly into Excel. For example, live stock prices or website tables. (Website ya CSV file se data Excel mein import karein).</p>
+                        <div class="details">
+                            <p><strong>Refresh:</strong> Once connected, you don't need to re-import. Just right-click and "Refresh" to get the latest data.</p>
+                        </div>
+                        <a href="#" class="btn btn-practice"><i class="fas fa-file-excel"></i> Download Practice File for 6.2</a>
+                    </div>
+                </section>
+
+                <!-- Module 7: Power Tools -->
+                <section id="module-7" class="module-content">
+                    <div class="topic-card">
+                        <div class="topic-header">
+                            <h2>7.1 Power Pivot & Data Modeling</h2>
+                        </div>
+                        <p class="intro">Power Pivot allows you to create relationships between multiple tables. No more VLOOKUP between tables! (Multiple tables ko aapas mein jodne ke liye Power Pivot use karein).</p>
+                        <div class="details">
+                            <p><strong>Data Model:</strong> Think of it like a database inside Excel. You can handle millions of rows without slowing down your file.</p>
+                            <p><strong>DAX (Data Analysis Expressions):</strong> DAX is the formula language for Power Pivot. It's much more powerful than standard Excel formulas.</p>
+                        </div>
+                        <div class="formula-box">
+                             <span>DAX Measure: Total Sales := SUM([Amount])</span>
+                        </div>
+                        <a href="#" class="btn btn-practice"><i class="fas fa-file-excel"></i> Download Practice File for 7.1</a>
+                    </div>
+                </section>
+
+                <!-- Module 8: Job Use Cases -->
+                <section id="module-8" class="module-content">
+                    <div class="topic-card">
+                        <div class="topic-header">
+                            <h2>8.1 Advanced Salary Sheet with Tax Calculation</h2>
+                        </div>
+                        <p class="intro">Learn how to create a professional salary sheet with dynamic tax brackets and bonuses. (Professional Salary Sheet banane ka mukammal tariqa).</p>
+                        <div class="details">
+                            <p><strong>Dynamic Formulas:</strong> Use <code>IF</code> or <code>XLOOKUP</code> to automatically calculate Tax based on the salary amount. Add HRA, Medical, and Other Allowances.</p>
+                        </div>
+                        <div class="excel-table-container">
+                            <table class="excel-table">
+                                <thead>
+                                    <tr><th>Employee</th><th>Basic</th><th>HRA (10%)</th><th>Tax (5%)</th><th>Net Pay</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>Kamran</td><td>50000</td><td>5000</td><td>2500</td><td>52500</td></tr>
+                                    <tr><td>Zeeshan</td><td>60000</td><td>6000</td><td>3000</td><td>63000</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="formula-box">
+                            <span>=B2 + (B2*0.1) - (B2*0.05)</span>
+                            <button class="copy-btn" onclick="copyFormula(this, '=B2 + (B2*0.1) - (B2*0.05)')"><i class="fas fa-copy"></i></button>
+                        </div>
+                        <a href="#" class="btn btn-practice"><i class="fas fa-file-excel"></i> Download Practice File for 8.1</a>
+                    </div>
+
+                    <div class="topic-card">
+                        <div class="topic-header">
+                            <h2>8.2 Attendance & Leave Tracker</h2>
+                        </div>
+                        <p class="intro">Track student/employee attendance with automated summaries. (Attendance track karne ka smart tariqa).</p>
+                        <div class="details">
+                            <p><strong>Using Checkboxes:</strong> You can use checkboxes (Insert > Checkbox) and count them with <code>COUNTIF</code>. It looks much cleaner than typing "P" or "A".</p>
+                        </div>
+                        <div class="formula-box">
+                            <span>=COUNTIF(B2:AF2, TRUE)</span>
+                            <button class="copy-btn" onclick="copyFormula(this, '=COUNTIF(B2:AF2, TRUE)')"><i class="fas fa-copy"></i></button>
+                        </div>
+                        <a href="#" class="btn btn-practice"><i class="fas fa-file-excel"></i> Download Practice File for 8.2</a>
+                    </div>
+
+                    <div class="topic-card">
+                        <div class="topic-header">
+                            <h2>8.3 Stock & Inventory Management</h2>
+                        </div>
+                        <p class="intro">Keep track of stock levels and get alerts for low items. (Stock aur inventory ko manage karein aur alert payein).</p>
+                        <div class="details">
+                            <p><strong>Low Stock Alert:</strong> Use Conditional Formatting with a formula like <code>=$B2<$C2</code> (Current Stock < Minimum Level) to turn the row red.</p>
+                        </div>
+                        <a href="#" class="btn btn-practice"><i class="fas fa-file-excel"></i> Download Practice File for 8.3</a>
+                    </div>
+                </section>
+
+                <!-- Final Assessment Module -->
+                <section id="module-quiz" class="module-content">
+                    <div id="quiz-intro" class="topic-card text-center">
+                        <h2>Final Assessments</h2>
+                        <p>Complete all levels to earn your professional certificate. You must score 100% in each level to proceed.</p>
+                        
+                        <div class="assessment-grid">
+                            <div class="assessment-card" id="level-beginner-card">
+                                <i class="fas fa-seedling"></i>
+                                <h3>Beginner Level</h3>
+                                <p>50 Marks</p>
+                                <button class="btn btn-primary" onclick="startAssessment('beginner')">Start Test</button>
+                                <div class="level-status" id="beginner-status">Locked</div>
+                            </div>
+                            <div class="assessment-card locked" id="level-intermediate-card">
+                                <i class="fas fa-layer-group"></i>
+                                <h3>Intermediate Level</h3>
+                                <p>70 Marks</p>
+                                <button class="btn btn-primary" id="btn-intermediate" onclick="startAssessment('intermediate')" disabled>Start Test</button>
+                                <div class="level-status" id="intermediate-status">Locked</div>
+                            </div>
+                            <div class="assessment-card locked" id="level-expert-card">
+                                <i class="fas fa-star"></i>
+                                <h3>Expert Level</h3>
+                                <p>100 Marks</p>
+                                <button class="btn btn-primary" id="btn-expert" onclick="startAssessment('expert')" disabled>Start Test</button>
+                                <div class="level-status" id="expert-status">Locked</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quiz Area (Initially Hidden) -->
+                    <div id="quiz-area" class="topic-card" style="display: none;">
+                        <div class="quiz-header">
+                            <h2 id="current-quiz-level">Assessment</h2>
+                            <div id="quiz-progress">Question 1 of 5</div>
+                        </div>
+                        <div id="question-container">
+                            <!-- Questions will be injected here -->
+                        </div>
+                        <div class="quiz-footer">
+                            <button class="btn btn-secondary" id="prev-btn" style="display: none;">Previous</button>
+                            <button class="btn btn-primary" id="next-btn">Next</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Resources Module -->
+                <section id="module-resources" class="module-content">
+                    <div class="topic-card">
+                        <h2>Excel Learning Resources</h2>
+                        <p>Access free templates, shortcuts, and cheat sheets.</p>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <i class="fas fa-file-download"></i>
+                                <h3>Templates</h3>
+                                <p>100+ Ready-to-use Files</p>
+                            </div>
+                            <div class="stat-card">
+                                <i class="fas fa-keyboard"></i>
+                                <h3>Shortcuts</h3>
+                                <p>Master Keyboard Control</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Community Module -->
+                <section id="module-community" class="module-content">
+                    <div class="topic-card text-center">
+                        <h2>Excel Mastery Community</h2>
+                        <p>Join thousands of students and experts to share knowledge.</p>
+                        <button class="btn btn-primary btn-lg mt-3"><i class="fab fa-facebook"></i> Join Facebook Group</button>
+                    </div>
+                </section>
+
+                <!-- Help Center Module -->
+                <section id="module-help" class="module-content">
+                    <div class="topic-card">
+                        <h2>Help & Support</h2>
+                        <p>Need help with a formula or the platform? Contact us.</p>
+                        <button class="btn btn-secondary mt-3" onclick="scrollToSection('contact-section')"><i class="fas fa-envelope"></i> Contact Support</button>
+                    </div>
+                </section>
+
+                <!-- Contact Section -->
+                <section id="contact-section" class="module-content">
+                    <div class="topic-card" style="max-width: 800px; margin: 0 auto;">
+                        <div class="text-center" style="margin-bottom: 2rem;">
+                            <h2 style="color: var(--primary-color);">Contact Us</h2>
+                            <p>We're here to help! Send us a message and we'll get back to you shortly.</p>
+                        </div>
+                        <form id="contact-form">
+                            <div class="form-group" style="margin-bottom: 15px;">
+                                <label style="display: block; margin-bottom: 5px; font-weight: 600;">Full Name:</label>
+                                <input type="text" id="contact-name" placeholder="Enter your name" required style="width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: var(--radius);">
+                            </div>
+                            <div class="form-group" style="margin-bottom: 15px;">
+                                <label style="display: block; margin-bottom: 5px; font-weight: 600;">WhatsApp Mobile Number:</label>
+                                <input type="tel" id="contact-phone" placeholder="Fetching your number..." readonly style="width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: var(--radius); background: #f9f9f9;">
+                            </div>
+                            <div class="form-group" style="margin-bottom: 20px;">
+                                <label style="display: block; margin-bottom: 5px; font-weight: 600;">Your Message:</label>
+                                <textarea id="contact-message" rows="4" placeholder="How can we help you?" required style="width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: var(--radius); font-family: inherit;"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 15px; font-size: 1.1rem;">
+                                <i class="fab fa-whatsapp"></i> Send via WhatsApp
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <!-- Message Sent Animation Modal -->
+                    <div id="contact-success-modal" class="modal" style="display: none;">
+                        <div class="modal-content" style="max-width: 400px;">
+                            <div class="success-animation" style="margin-bottom: 1rem;">
+                                <i class="fas fa-check-circle" style="font-size: 4rem; color: var(--primary-color); animation: bounceIn 0.5s;"></i>
+                            </div>
+                            <h2 style="color: var(--primary-color);">Message Sent!</h2>
+                            <p>Thank you for reaching out. We have received your message.</p>
+                            <p style="font-weight: 600; margin-top: 10px;">Please wait while we connect you to WhatsApp...</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="module-admin" class="module-content">
+                    <div class="topic-card">
+                        <div class="topic-header">
+                            <h2>Student Database (Admin Only)</h2>
+                            <div class="search-container">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="admin-user-search" placeholder="Search by name, phone..." oninput="searchUsers()">
+                            </div>
+                        </div>
+                        <p>Total Registered Students: <span id="total-users">0</span></p>
+                        <div class="excel-table-container">
+                            <table class="excel-table" id="users-table">
+                                <thead>
+                                    <tr>
+                                        <th>Student Name</th>
+                                        <th>Phone Number</th>
+                                        <th>Registration Date</th>
+                                        <th>Password</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="users-body">
+                                    <!-- User records will be injected here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="topic-card">
+                        <div class="topic-header">
+                            <h2>Certificate Records</h2>
+                            <div class="search-container">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="admin-search" placeholder="Search by name or date..." oninput="searchRecords()">
+                            </div>
+                        </div>
+                        <p>Total Certificates Issued: <span id="total-certs">0</span></p>
+                        <div class="excel-table-container">
+                            <table class="excel-table" id="records-table">
+                                <thead>
+                                    <tr>
+                                        <th>Student Name</th>
+                                        <th>Date</th>
+                                        <th>Level Achieved</th>
+                                        <th>Certificate ID</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="records-body">
+                                    <!-- Records will be injected here -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <button class="btn btn-secondary mt-3" onclick="clearAllRecords()">Clear All Records (Admin Only)</button>
+                        <button class="btn btn-primary mt-3 ml-2" onclick="bypassProgress()">Unlock Tests (Dev Mode)</button>
+                    </div>
+                </section>
+
+                <!-- Account Settings Module -->
+                <section id="module-account-settings" class="module-content">
+                    <div class="topic-card">
+                        <div class="topic-header">
+                            <h2><i class="fas fa-user-cog"></i> Account Settings</h2>
+                        </div>
+                        <div class="settings-grid">
+                            <div class="settings-card">
+                                <h4>My Profile</h4>
+                                <p>Manage your personal information.</p>
+                                <div class="profile-info">
+                                    <div><strong>Name:</strong> <span id="setting-user-name"></span></div>
+                                    <div><strong>Phone:</strong> <span id="setting-user-phone"></span></div>
+                                </div>
+                            </div>
+                            <div class="settings-card">
+                                <h4>Security</h4>
+                                <p>Change your password to keep your account secure.</p>
+                                <button class="btn btn-secondary mt-2" onclick="openChangePasswordModal()">Change Password</button>
+                                <button class="btn btn-link mt-2" onclick="openForgotPasswordModal()">Forgot Password?</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- My Submissions Module -->
+                <section id="module-my-submissions" class="module-content">
+                    <div class="topic-card">
+                        <div class="topic-header">
+                            <h2><i class="fas fa-history"></i> My Submissions</h2>
+                        </div>
+                        <p>Here are the results of your submitted assessments.</p>
+                        <div id="submissions-container" class="excel-table-container">
+                            <table class="excel-table">
+                                <thead>
+                                    <tr>
+                                        <th>Assessment Level</th>
+                                        <th>Score</th>
+                                        <th>Status</th>
+                                        <th>Date Submitted</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="submissions-body">
+                                    <!-- Submission records will be injected here -->
+                                    <tr><td colspan="4" style="text-align: center;">No submissions yet.</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Certificate Module -->
+                <section id="module-certificate" class="module-content">
+                    <div class="topic-card text-center">
+                        <h2>Congratulations!</h2>
+                        <p>You have reached the end of the course. Click below to generate your certificate.</p>
+                        <button class="btn btn-primary btn-lg" onclick="showCertificate()">
+                            <i class="fas fa-medal"></i> Generate Certificate
+                        </button>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Certificate Modal (Hidden by default) -->
+    <div id="certificate-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="certificate" id="certificate-print">
+                        <div class="cert-content">
+                            <h2>Certificate</h2>
+                            <p>OF COMPLETION</p>
+                            <div style="margin: 20px 0;">This is to certify that</div>
+                            <h3 id="student-name">Student Name</h3>
+                            <div style="margin: 10px 0;">Mobile: <span id="student-phone" style="font-weight: 600;"></span></div>
+                            <p>has successfully completed all requirements of the</p>
+                            <div style="font-size: 1.4rem; font-weight: 700; color: #107c41; margin: 10px 0;">Advanced Excel Mastery Course</div>
+                            <p>demonstrating proficiency in Advanced Formulas, Data Analysis, and Dashboards.</p>
+                            
+                            <div class="cert-footer">
+                                <div class="cert-date">
+                                    <div style="font-weight: 600; border-bottom: 1px solid #333; width: 150px; min-height: 20px;" id="cert-date-text"></div>
+                                    <div style="font-size: 0.8rem; color: #666; margin-top: 5px;">DATE</div>
+                                </div>
+                                <div class="cert-signature">
+                                    <div style="font-family: 'Dancing Script', cursive; font-size: 1.8rem; margin-bottom: -10px;">Sadaqat Ali</div>
+                                    <div class="signature-line"></div>
+                                    <div style="font-size: 0.8rem; color: #666;">SADAQAT ALI - COURSE DIRECTOR</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-actions">
+                        <button class="btn btn-primary btn-lg" onclick="window.print()">
+                            <i class="fas fa-file-pdf"></i> Download PDF
+                        </button>
+                        <button class="btn btn-secondary btn-lg" onclick="shareCertificateWhatsApp()">
+                            <i class="fab fa-whatsapp"></i> Share on WhatsApp
+                        </button>
+                    </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <div class="logo">
+                    <i class="fas fa-file-excel"></i>
+                    <span>Excel Mastery Hub</span>
+                </div>
+                <p style="margin-top: 15px; font-size: 0.9rem; opacity: 0.8;">Your journey to becoming an Excel expert starts here. Join thousands of students mastering data today.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="#" onclick="scrollToSection('contact-section')">Contact Us</a></li>
+                    <li><a href="#module-resources" onclick="scrollToModule('module-resources')">Resources</a></li>
+                    <li><a href="https://www.youtube.com/@ExcelMasteryHub" target="_blank">Video Courses</a></li>
+                    <li><a href="#" onclick="scrollToSection('landing-page')">Blog</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Legal & Security</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms & Conditions</a></li>
+                    <li><a href="#">Security</a></li>
+                    <li><a href="#">Terms of Use</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Connect With Us</h4>
+                <div class="social-links">
+                    <a href="https://wa.me/923459572281" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    <a href="https://youtube.com/@ExcelMasteryHub" target="_blank" title="YouTube"><i class="fab fa-youtube"></i></a>
+                    <a href="#" title="Facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="#" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                </div>
+                <p style="margin-top: 15px; font-size: 0.8rem; opacity: 0.7;">&copy; 2026 Excel Mastery Hub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Change Password Modal -->
+    <div id="change-password-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeChangePasswordModal()">&times;</span>
+            <h2>Change Your Password</h2>
+            <form id="change-password-form" style="margin-top: 20px; text-align: left;">
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label>Old Password:</label>
+                    <input type="password" id="old-password" required>
+                </div>
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label>New Password:</label>
+                    <input type="password" id="new-password" required>
+                </div>
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label>Confirm New Password:</label>
+                    <input type="password" id="confirm-new-password" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Update Password</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div id="forgot-password-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeForgotPasswordModal()">&times;</span>
+            <h2>Reset Your Password</h2>
+            <p>Enter your registered WhatsApp number to receive an OTP.</p>
+            <form id="forgot-password-form" style="margin-top: 20px; text-align: left;">
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label>WhatsApp Mobile Number:</label>
+                    <input type="tel" id="forgot-phone" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Send OTP</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Reset Password with OTP Modal -->
+    <div id="reset-password-otp-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeResetPasswordOtpModal()">&times;</span>
+            <h2>Enter New Password</h2>
+            <p>An OTP has been sent to your WhatsApp. Please enter it below and set a new password.</p>
+            <form id="reset-password-otp-form" style="margin-top: 20px; text-align: left;">
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label>Enter OTP:</label>
+                    <input type="text" id="reset-otp-code" required>
+                </div>
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label>New Password:</label>
+                    <input type="password" id="reset-new-password" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Reset Password</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

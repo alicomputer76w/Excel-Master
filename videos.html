@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Courses - Excel Mastery Hub</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/all.min.css">
+    <style>
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+        }
+        .video-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+        }
+        .video-card:hover {
+            transform: translateY(-5px);
+        }
+        .video-thumbnail {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            position: relative;
+        }
+        .video-thumbnail i {
+            font-size: 3rem;
+            opacity: 0.8;
+        }
+        .video-info {
+            padding: 1.5rem;
+        }
+        .video-info h3 {
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+        .video-info p {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+        }
+        .play-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: var(--radius);
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        .play-btn:hover {
+            background: #0d6334;
+        }
+        .videos-header {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(rgba(16, 124, 65, 0.1), rgba(16, 124, 65, 0.05));
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-left">
+            <a href="index.html" class="logo" style="text-decoration: none;">
+                <i class="fas fa-file-excel"></i>
+                <span>Excel Mastery Hub</span>
+            </a>
+        </div>
+        <nav class="top-nav">
+            <a href="index.html" class="top-nav-link">Back to Course</a>
+        </nav>
+    </header>
+
+    <main style="margin-top: var(--header-height);">
+        <section class="videos-header">
+            <h1>Advanced Video Courses</h1>
+            <p>Master Excel visually with our step-by-step video tutorials.</p>
+        </section>
+
+        <div class="video-grid">
+            <!-- Dummy Video 1 -->
+            <div class="video-card">
+                <div class="video-thumbnail">
+                    <i class="fas fa-play-circle"></i>
+                </div>
+                <div class="video-info">
+                    <h3>1. Introduction to Advanced Excel</h3>
+                    <p>Overview of the advanced features we will cover in this course.</p>
+                    <a href="#" class="play-btn"><i class="fas fa-play"></i> Watch Now</a>
+                </div>
+            </div>
+
+            <!-- Dummy Video 2 -->
+            <div class="video-card">
+                <div class="video-thumbnail">
+                    <i class="fas fa-play-circle"></i>
+                </div>
+                <div class="video-info">
+                    <h3>2. Mastering XLOOKUP & VLOOKUP</h3>
+                    <p>Deep dive into lookup functions with complex data sets.</p>
+                    <a href="#" class="play-btn"><i class="fas fa-play"></i> Watch Now</a>
+                </div>
+            </div>
+
+            <!-- Dummy Video 3 -->
+            <div class="video-card">
+                <div class="video-thumbnail">
+                    <i class="fas fa-play-circle"></i>
+                </div>
+                <div class="video-info">
+                    <h3>3. Dynamic Dashboard Creation</h3>
+                    <p>Learn how to build interactive dashboards using Pivot Tables.</p>
+                    <a href="#" class="play-btn"><i class="fas fa-play"></i> Watch Now</a>
+                </div>
+            </div>
+
+            <!-- Dummy Video 4 -->
+            <div class="video-card">
+                <div class="video-thumbnail">
+                    <i class="fas fa-play-circle"></i>
+                </div>
+                <div class="video-info">
+                    <h3>4. Power Query Automation</h3>
+                    <p>Automate your data cleaning process like a pro.</p>
+                    <a href="#" class="play-btn"><i class="fas fa-play"></i> Watch Now</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-container" style="text-align: center; display: block;">
+            <p>&copy; 2026 Excel Mastery Hub. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

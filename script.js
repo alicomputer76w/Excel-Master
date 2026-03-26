@@ -351,48 +351,59 @@ document.addEventListener('DOMContentLoaded', () => {
         const TOKEN = "y610w9462j4c2vxc";
         
         // --- Phone Number Formatting (IMPORTANT for API) ---
-        // Convert local format (0310...) to international format (92310...)
-        let formattedPhone = phone.trim().replace(/\D/g, ''); // Remove non-digits
+        let formattedPhone = phone.trim().replace(/\D/g, ''); 
         if (formattedPhone.startsWith('0')) {
             formattedPhone = '92' + formattedPhone.substring(1);
         } else if (formattedPhone.length === 10) {
             formattedPhone = '92' + formattedPhone;
         }
         
-        // Background API call using UltraMsg
+        console.log("Attempting to send OTP to:", formattedPhone);
+
         const url = `https://api.ultramsg.com/${INSTANCE_ID}/messages/chat`;
         
-        const params = new URLSearchParams();
-        params.append('token', TOKEN);
-        params.append('to', formattedPhone);
-        params.append('body', message);
-        params.append('priority', '10');
+        // Try JSON format first (Modern standard)
+        const payload = {
+            token: TOKEN,
+            to: formattedPhone,
+            body: message,
+            priority: 10
+        };
 
         try {
-            // Using POST with form-urlencoded which is sometimes better for simple APIs
             const response = await fetch(url, {
                 method: "POST",
-                headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: params
+                headers: { 
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
             });
-            
-            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
             
             const result = await response.json();
             console.log("UltraMsg API Response:", result);
             
-            // UltraMsg usually returns a message ID if successful
             if (result.sent === "true" || result.id || result.success) {
                 return true;
             } else {
-                throw new Error("API Response Error: " + JSON.stringify(result));
+                // If JSON fails, try Form Data as backup
+                console.log("JSON failed, trying URLSearchParams fallback...");
+                const params = new URLSearchParams();
+                for (let key in payload) params.append(key, payload[key]);
+                
+                const responseFallback = await fetch(url, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                    body: params
+                });
+                const resultFallback = await responseFallback.json();
+                return (resultFallback.sent === "true" || resultFallback.id);
             }
         } catch (error) {
             console.error("WhatsApp API Error:", error);
-            // Fallback: Open WhatsApp window if API fails (e.g., CORS or Network error)
+            // FINAL FALLBACK: Open WhatsApp manually if API fails on GitHub Pages
             const waUrl = `https://wa.me/${formattedPhone}?text=${encodeURIComponent(message)}`;
             window.open(waUrl, '_blank');
-            showToast("Background send failed. Opening WhatsApp manually...");
+            showToast("Opening WhatsApp for OTP...");
             return true;
         }
     }

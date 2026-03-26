@@ -540,18 +540,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
     loginForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        const phone = document.getElementById('login-phone').value;
+        const phoneInput = document.getElementById('login-phone').value.trim();
         const password = document.getElementById('login-password').value;
         
+        // Clean phone number for comparison (remove spaces, dashes, etc.)
+        const cleanPhoneInput = phoneInput.replace(/\D/g, '');
+        
         const allUsers = JSON.parse(localStorage.getItem('allUsers')) || [];
-        const user = allUsers.find(u => u.phone === phone && u.password === password);
+        console.log("Attempting login for:", cleanPhoneInput);
+        
+        // Find user by comparing cleaned phone numbers
+        const user = allUsers.find(u => {
+            const cleanUserPhone = u.phone.replace(/\D/g, '');
+            return (cleanUserPhone === cleanPhoneInput || 
+                    (cleanUserPhone.endsWith(cleanPhoneInput) && cleanPhoneInput.length >= 10)) 
+                    && u.password === password;
+        });
         
         if (user) {
             localStorage.setItem('currentUser', JSON.stringify(user));
             closeLoginModal();
             updateAuthUI(user);
             showToast(`Welcome back, ${user.name}!`);
+            // Small delay to ensure UI updates before potential reload
+            setTimeout(() => window.location.reload(), 500);
         } else {
+            console.log("Login failed. Registered users:", allUsers);
             showToast("Invalid phone number or password.");
         }
     });

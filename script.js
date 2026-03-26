@@ -345,12 +345,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const savedUser = JSON.parse(localStorage.getItem('currentUser'));
     updateAuthUI(savedUser);
 
-    // --- WhatsApp API Integration Helper (UltraMsg) ---
+    // --- WhatsApp API Integration Helper (UltraMsg - Automatic Background) ---
     async function sendWhatsAppMessage(phone, message) {
         const INSTANCE_ID = "instance167289";
         const TOKEN = "y610w9462j4c2vxc";
         
-        // --- Phone Number Formatting (IMPORTANT for API) ---
+        // --- Phone Number Formatting ---
         let formattedPhone = phone.trim().replace(/\D/g, ''); 
         if (formattedPhone.startsWith('0')) {
             formattedPhone = '92' + formattedPhone.substring(1);
@@ -358,56 +358,28 @@ document.addEventListener('DOMContentLoaded', () => {
             formattedPhone = '92' + formattedPhone;
         }
         
-        console.log("Attempting to send OTP to:", formattedPhone);
+        console.log("Attempting to send OTP automatically to:", formattedPhone);
 
-        const url = `https://api.ultramsg.com/${INSTANCE_ID}/messages/chat`;
-        
-        // Try JSON format first (Modern standard)
-        const payload = {
-            token: TOKEN,
-            to: formattedPhone,
-            body: message,
-            priority: 10
-        };
+        // Using GET method for better CORS compatibility on GitHub Pages
+        const url = `https://api.ultramsg.com/${INSTANCE_ID}/messages/chat?token=${TOKEN}&to=${formattedPhone}&body=${encodeURIComponent(message)}&priority=10`;
 
         try {
-            const response = await fetch(url, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload)
-            });
-            
+            const response = await fetch(url, { method: "GET" });
             const result = await response.json();
             console.log("UltraMsg API Response:", result);
             
             if (result.sent === "true" || result.id || result.success) {
-                console.log("OTP Sent Successfully!");
+                console.log("OTP Sent Successfully in Background!");
                 return true;
-            } else if (result.error) {
-                console.error("UltraMsg API Error Detail:", result.error);
-                throw new Error(result.error);
             } else {
-                // If JSON fails, try Form Data as backup
-                console.log("JSON failed or no success response, trying URLSearchParams fallback...");
-                const params = new URLSearchParams();
-                for (let key in payload) params.append(key, payload[key]);
-                
-                const responseFallback = await fetch(url, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                    body: params
-                });
-                const resultFallback = await responseFallback.json();
-                console.log("UltraMsg Fallback Response:", resultFallback);
-                return (resultFallback.sent === "true" || resultFallback.id || resultFallback.success);
+                console.error("UltraMsg API Error Detail:", result);
+                showToast("OTP API Error: " + (result.error || "Check UltraMsg credits/status"));
+                return false;
             }
         } catch (error) {
             console.error("WhatsApp API Final Catch Error:", error);
-            // FINAL FALLBACK: Open WhatsApp manually if API fails (e.g. CORS or no credits)
-            const waUrl = `https://wa.me/${formattedPhone}?text=${encodeURIComponent(message)}`;
-            window.open(waUrl, '_blank');
-            showToast("Opening WhatsApp manually...");
-            return true;
+            showToast("Connection Error: Background OTP failed. Check Console (F12).");
+            return false;
         }
     }
 

@@ -15,91 +15,14 @@
     <div id="scroll-progress"></div>
     
     <!-- Toast Container for Notifications -->
-    <div id="toast-container"></div>
+    <div id="toast-container" class="toast-container"></div>
 
-    <!-- User Registration Modal -->
-    <div id="user-reg-modal" class="modal" style="display: none;">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeRegModal()">&times;</span>
-            <h2>Create Your Student Account</h2>
-            <p>Join the Excel Mastery Hub to start your journey.</p>
-            <form id="reg-form" style="margin-top: 20px; text-align: left;">
-                <div class="form-group" style="margin-bottom: 15px;">
-                    <label for="reg-name" style="display: block; margin-bottom: 5px; font-weight: 600;">Full Name:</label>
-                    <input type="text" id="reg-name" required style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: var(--radius);">
-                </div>
-                <div class="form-group" style="margin-bottom: 15px;">
-                    <label for="reg-phone" style="display: block; margin-bottom: 5px; font-weight: 600;">WhatsApp Mobile Number:</label>
-                    <input type="tel" id="reg-phone" placeholder="e.g. 03459572281" required style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: var(--radius);">
-                </div>
-                <div class="form-group" style="margin-bottom: 20px;">
-                    <label for="reg-password" style="display: block; margin-bottom: 5px; font-weight: 600;">Set Password:</label>
-                    <input type="password" id="reg-password" required>
-                    <div class="password-strength">
-                        <div class="strength-indicator">
-                            <div id="strength-bar" class="strength-bar"></div>
-                        </div>
-                        <div id="strength-text" class="strength-text"></div>
-                    </div>
-                    <ul class="password-requirements">
-                        <li id="req-length">Minimum 8 characters</li>
-                        <li id="req-uppercase">1 Uppercase letter</li>
-                        <li id="req-lowercase">1 Lowercase letter</li>
-                        <li id="req-number">1 Number</li>
-                        <li id="req-special">1 Special character (!@#$%)</li>
-                    </ul>
-                </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">Send OTP on WhatsApp</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- OTP Verification Modal -->
-    <div id="otp-modal" class="modal" style="display: none;">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeOtpModal()">&times;</span>
-            <h2>Verify Your Number</h2>
-            <p>We have sent a 6-digit OTP to your WhatsApp number <strong id="display-otp-phone"></strong>.</p>
-            <form id="otp-form" style="margin-top: 20px; text-align: left;">
-                <div class="form-group" style="margin-bottom: 20px;">
-                    <label for="otp-code" style="display: block; margin-bottom: 5px; font-weight: 600;">Enter OTP Code:</label>
-                    <input type="text" id="otp-code" placeholder="Enter 6-digit code" required maxlength="6" style="width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: var(--radius); font-size: 1.2rem; text-align: center; letter-spacing: 5px;">
-                </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">Verify & Login</button>
-                <p style="margin-top: 15px; text-align: center; font-size: 0.9rem;">
-                    Didn't receive code? <a href="#" onclick="resendOtp()" style="color: var(--primary-color); font-weight: 600;">Resend Code</a>
-                </p>
-            </form>
-        </div>
-    </div>
-
-    <!-- Login Modal -->
-    <div id="login-modal" class="modal" style="display: none;">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeLoginModal()">&times;</span>
-            <h2>Student Login</h2>
-            <p>Welcome back! Please login to continue.</p>
-            <form id="login-form" style="margin-top: 20px; text-align: left;">
-                <div class="form-group" style="margin-bottom: 15px;">
-                    <label for="login-phone" style="display: block; margin-bottom: 5px; font-weight: 600;">Phone Number:</label>
-                    <input type="tel" id="login-phone" required style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: var(--radius);">
-                </div>
-                <div class="form-group" style="margin-bottom: 20px;">
-                    <label for="login-password" style="display: block; margin-bottom: 5px; font-weight: 600;">Password:</label>
-                    <input type="password" id="login-password" required style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: var(--radius);">
-                </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">Login</button>
-                <p style="margin-top: 15px; text-align: center; font-size: 0.9rem;">
-                    Don't have an account? <a href="#" onclick="openRegModal()" style="color: var(--primary-color); font-weight: 600;">Register here</a>
-                </p>
-            </form>
-        </div>
-    </div>
+    <!-- Auth Modals Removed Temporarily -->
 
     <!-- Header -->
     <header class="header">
         <div class="header-left">
-            <button id="sidebar-toggle" class="sidebar-toggle" style="display: none;">
+            <button id="sidebar-toggle" class="sidebar-toggle">
                 <i class="fas fa-bars"></i>
             </button>
             <a href="index.html" class="logo" style="text-decoration: none;">
@@ -124,24 +47,7 @@
             <button id="theme-toggle" class="theme-toggle" title="Toggle Dark/Light Mode">
                 <i class="fas fa-moon"></i>
             </button>
-            <div id="user-profile" class="user-profile" style="display: none;">
-                <button class="profile-btn" onclick="toggleUserPanel()">
-                    <i class="fas fa-user-circle"></i>
-                    <span id="user-display-name">Student</span>
-                </button>
-                <div id="user-panel" class="user-panel-dropdown">
-                    <div class="user-panel-header">
-                        <strong id="panel-user-name">Student Name</strong>
-                        <span id="panel-user-phone">03459572281</span>
-                    </div>
-                    <div class="user-panel-body">
-                        <a href="#" class="panel-link" onclick="showSection('module-account-settings'); toggleUserPanel()"><i class="fas fa-cog"></i> Account Settings</a>
-                        <a href="#" class="panel-link" onclick="showSection('module-my-submissions'); toggleUserPanel()"><i class="fas fa-history"></i> My Submissions</a>
-                        <a href="#" class="panel-link" onclick="logoutUser()"><i class="fas fa-sign-out-alt"></i> Logout</a>
-                    </div>
-                </div>
-            </div>
-            <button id="login-nav-btn" class="btn btn-primary" onclick="openLoginModal()">Login</button>
+            <!-- Auth Buttons Removed Temporarily -->
             <div class="progress-info">
                 <span id="overall-progress-text">0% Completed</span>
                 <div class="progress-bar-container">
@@ -153,7 +59,7 @@
 
     <div class="main-container">
         <!-- Sidebar Navigation -->
-        <aside class="sidebar" id="sidebar">
+        <aside class="sidebar collapsed" id="sidebar">
             <nav class="nav-menu">
                 <div class="nav-section">
                     <h3 class="nav-title">Course Modules</h3>
@@ -232,61 +138,10 @@
         <!-- Content Area -->
         <main class="content expanded">
             <div id="content-container">
-                <!-- Landing Page (Visible when not logged in) -->
-                <section id="landing-page" class="module-content active">
-                    <div class="hero-section">
-                        <h1>Unlock Your Potential with <br><span style="color: #ffd700;">Advanced Excel Mastery</span></h1>
-                        <p>From Basics to Professional Dashboards - The Only Course You Need to Become an Excel Expert.</p>
-                        <div class="hero-buttons">
-                            <button class="btn btn-primary btn-lg" onclick="openRegModal()"><i class="fas fa-rocket"></i> Start Learning Now</button>
-                            <button class="btn btn-secondary btn-lg" onclick="scrollToSection('excel-features')">Explore Course</button>
-                        </div>
-                    </div>
+                <!-- Landing Page Removed Temporarily -->
 
-                    <div id="excel-features" class="stats-grid">
-                        <div class="stat-card">
-                            <i class="fas fa-calculator"></i>
-                            <h3>Advanced Formulas</h3>
-                            <p>Master VLOOKUP, XLOOKUP, INDEX-MATCH, and Nested IFs with real-world scenarios.</p>
-                        </div>
-                        <div class="stat-card">
-                            <i class="fas fa-chart-pie"></i>
-                            <h3>Dynamic Dashboards</h3>
-                            <p>Create professional, interactive dashboards that impress managers and clients.</p>
-                        </div>
-                        <div class="stat-card">
-                            <i class="fas fa-bolt"></i>
-                            <h3>Process Automation</h3>
-                            <p>Learn Power Query and Macros to automate repetitive tasks and save hours daily.</p>
-                        </div>
-                    </div>
-
-                    <div class="topic-card text-center" style="background: linear-gradient(rgba(16, 124, 65, 0.05), rgba(16, 124, 65, 0.1)); border: none;">
-                        <h2 style="margin-bottom: 1.5rem;">Why Join Excel Mastery Hub?</h2>
-                        <div class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
-                            <div>
-                                <h4 style="font-size: 2rem; color: var(--primary-color);">50+</h4>
-                                <p>Interactive Lessons</p>
-                            </div>
-                            <div>
-                                <h4 style="font-size: 2rem; color: var(--primary-color);">100%</h4>
-                                <p>Practical Approach</p>
-                            </div>
-                            <div>
-                                <h4 style="font-size: 2rem; color: var(--primary-color);">FREE</h4>
-                                <p>Practice Files</p>
-                            </div>
-                            <div>
-                                <h4 style="font-size: 2rem; color: var(--primary-color);">PRO</h4>
-                                <p>Certification</p>
-                            </div>
-                        </div>
-                        <button class="btn btn-primary btn-lg mt-3" onclick="openRegModal()">Join Now for Free</button>
-                    </div>
-                </section>
-
-                <!-- Welcome Section (Visible after login) -->
-                <section id="welcome-section" class="module-content">
+                <!-- Welcome Section (Visible by default now) -->
+                <section id="welcome-section" class="module-content active">
                     <div class="hero-section">
                         <h1 id="typewriter-text">Master Advanced Excel</h1><span class="cursor"></span>
                         <p>Learn complex formulas, data analysis, automation, and create powerful dashboards.</p>
@@ -410,7 +265,7 @@
                             <p>Multiple conditions: (Jab ek se zyada conditions hon)</p>
                             <div class="formula-box">
                                 <span>=IF(B2>=90, "A+", IF(B2>=80, "A", IF(B2>=70, "B", "C")))</span>
-                                <button class="copy-btn" onclick="copyFormula(this, '=IF(B2>=90, \"A+\", IF(B2>=80, \"A\", IF(B2>=70, \"B\", \"C\")))')"><i class="fas fa-copy"></i></button>
+                                <button class="copy-btn" onclick="copyFormula(this, '=IF(B2>=90, &quot;A+&quot;, IF(B2>=80, &quot;A&quot;, IF(B2>=70, &quot;B&quot;, &quot;C&quot;)))')"><i class="fas fa-copy"></i></button>
                             </div>
                         </div>
 
@@ -418,6 +273,7 @@
                             <h4>Practice Exercise</h4>
                             <p>Write a formula to check student marks. If marks >= 33 return "Pass", else "Fail".</p>
                             <button class="btn btn-primary solution-toggle" onclick="toggleSolution('sol-1')">View Solution</button>
+
                             <div id="sol-1" class="solution-content">
                                 <strong>Solution:</strong> <code>=IF(A2>=33, "Pass", "Fail")</code>
                             </div>
@@ -438,7 +294,7 @@
 
                         <div class="formula-box">
                             <span>=XLOOKUP(lookup_value, lookup_array, return_array, [if_not_found])</span>
-                            <button class="copy-btn" onclick="copyFormula(this, '=XLOOKUP(A2, Employees!A:A, Employees!B:B, \"Not Found\")')"><i class="fas fa-copy"></i></button>
+                            <button class="copy-btn" onclick="copyFormula(this, '=XLOOKUP(A2, Employees!A:A, Employees!B:B, &quot;Not Found&quot;)')"><i class="fas fa-copy"></i></button>
                         </div>
 
                         <div class="tips">
@@ -486,8 +342,9 @@
                         <p class="intro">Clean and join text strings. (Text ko saaf karne aur jodne ke liye).</p>
                         <div class="formula-box">
                             <span>=CONCAT(FirstName, " ", LastName)</span>
-                            <button class="copy-btn" onclick="copyFormula(this, '=CONCAT(A2, \" \", B2)')"><i class="fas fa-copy"></i></button>
+                            <button class="copy-btn" onclick="copyFormula(this, '=CONCAT(A2, &quot; &quot;, B2)')"><i class="fas fa-copy"></i></button>
                         </div>
+                    </div>
                     <div class="topic-card">
                         <div class="topic-header">
                             <h2>1.6 SUMIF & SUMIFS (Conditional Sums)</h2>
@@ -498,7 +355,7 @@
                         </div>
                         <div class="formula-box">
                             <span>=SUMIFS(sum_range, criteria_range1, criteria1, [criteria_range2, criteria2], ...)</span>
-                            <button class="copy-btn" onclick="copyFormula(this, '=SUMIFS(C:C, A:A, \"East\", B:B, \"John\")')"><i class="fas fa-copy"></i></button>
+                            <button class="copy-btn" onclick="copyFormula(this, '=SUMIFS(C:C, A:A, &quot;East&quot;, B:B, &quot;John&quot;)')"><i class="fas fa-copy"></i></button>
                         </div>
                         <div class="submit-section" style="margin-top: 20px;">
                             <a href="#" class="btn btn-practice" onclick="downloadAndPromptSubmit('SUMIFS_Practice.xlsx')"><i class="fas fa-file-excel"></i> Download Practice File</a>
@@ -513,7 +370,7 @@
                         <p class="intro">Similar to SUMIF/SUMIFS, but they count the number of cells that meet conditions instead of summing them. (Yeh formulas cells ko ginte hain, sum nahi karte).</p>
                         <div class="formula-box">
                             <span>=COUNTIFS(criteria_range1, criteria1, [criteria_range2, criteria2], ...)</span>
-                            <button class="copy-btn" onclick="copyFormula(this, '=COUNTIFS(A:A, \">500\", B:B, \"Active\")')"><i class="fas fa-copy"></i></button>
+                            <button class="copy-btn" onclick="copyFormula(this, '=COUNTIFS(A:A, &quot;>500&quot;, B:B, &quot;Active&quot;)')"><i class="fas fa-copy"></i></button>
                         </div>
                         <div class="submit-section" style="margin-top: 20px;">
                             <a href="#" class="btn btn-practice" onclick="downloadAndPromptSubmit('COUNTIFS_Practice.xlsx')"><i class="fas fa-file-excel"></i> Download Practice File</a>
@@ -597,7 +454,7 @@
                         </div>
                         <div class="formula-box">
                             <span>=$C2="Delayed"</span>
-                            <button class="copy-btn" onclick="copyFormula(this, '=$C2=\"Delayed\"')"><i class="fas fa-copy"></i></button>
+                            <button class="copy-btn" onclick="copyFormula(this, '=$C2=&quot;Delayed&quot;')"><i class="fas fa-copy"></i></button>
                         </div>
                         <a href="#" class="btn btn-practice"><i class="fas fa-file-excel"></i> Download Practice File for 3.1</a>
                     </div>
@@ -1094,66 +951,8 @@
         </div>
     </footer>
 
-    <!-- Change Password Modal -->
-    <div id="change-password-modal" class="modal" style="display: none;">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeChangePasswordModal()">&times;</span>
-            <h2>Change Your Password</h2>
-            <form id="change-password-form" style="margin-top: 20px; text-align: left;">
-                <div class="form-group" style="margin-bottom: 15px;">
-                    <label for="old-password">Old Password:</label>
-                    <input type="password" id="old-password" required>
-                </div>
-                <div class="form-group" style="margin-bottom: 15px;">
-                    <label for="new-password">New Password:</label>
-                    <input type="password" id="new-password" required>
-                </div>
-                <div class="form-group" style="margin-bottom: 20px;">
-                    <label for="confirm-new-password">Confirm New Password:</label>
-                    <input type="password" id="confirm-new-password" required>
-                </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%;">Update Password</button>
-            </form>
-        </div>
-    </div>
+    <!-- Password Modals Removed Temporarily -->
 
-    <!-- Forgot Password Modal -->
-    <div id="forgot-password-modal" class="modal" style="display: none;">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeForgotPasswordModal()">&times;</span>
-            <h2>Reset Your Password</h2>
-            <p>Enter your registered WhatsApp number to receive an OTP.</p>
-            <form id="forgot-password-form" style="margin-top: 20px; text-align: left;">
-                <div class="form-group" style="margin-bottom: 20px;">
-                    <label for="forgot-phone">WhatsApp Mobile Number:</label>
-                    <input type="tel" id="forgot-phone" required>
-                </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%;">Send OTP</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Reset Password with OTP Modal -->
-    <div id="reset-password-otp-modal" class="modal" style="display: none;">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeResetPasswordOtpModal()">&times;</span>
-            <h2>Enter New Password</h2>
-            <p>An OTP has been sent to your WhatsApp. Please enter it below and set a new password.</p>
-            <form id="reset-password-otp-form" style="margin-top: 20px; text-align: left;">
-                <div class="form-group" style="margin-bottom: 15px;">
-                    <label for="reset-otp-code">Enter OTP:</label>
-                    <input type="text" id="reset-otp-code" required>
-                </div>
-                <div class="form-group" style="margin-bottom: 15px;">
-                    <label for="reset-new-password">New Password:</label>
-                    <input type="password" id="reset-new-password" required>
-                </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%;">Reset Password</button>
-            </form>
-        </div>
-    </div>
-
-    <div id="toast-container" class="toast-container"></div>
     <script src="script.js"></script>
 </body>
 </html>

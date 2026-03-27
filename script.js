@@ -254,7 +254,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // --- User Registration & Login Logic ---
+    // --- User Registration & Login Logic (Temporarily Removed) ---
+    /*
     const regModal = document.getElementById('user-reg-modal');
     const loginModal = document.getElementById('login-modal');
     const otpModal = document.getElementById('otp-modal');
@@ -272,78 +273,26 @@ document.addEventListener('DOMContentLoaded', () => {
     let generatedOtp = null;
 
     window.openRegModal = () => {
-        loginModal.style.display = 'none';
-        regModal.style.display = 'flex';
+        if(loginModal) loginModal.style.display = 'none';
+        if(regModal) regModal.style.display = 'flex';
     };
-    window.closeRegModal = () => regModal.style.display = 'none';
+    window.closeRegModal = () => { if(regModal) regModal.style.display = 'none'; }
     
     window.openLoginModal = () => {
-        regModal.style.display = 'none';
-        loginModal.style.display = 'flex';
+        if(regModal) regModal.style.display = 'none';
+        if(loginModal) loginModal.style.display = 'flex';
     };
-    window.closeLoginModal = () => loginModal.style.display = 'none';
+    window.closeLoginModal = () => { if(loginModal) loginModal.style.display = 'none'; }
 
-    window.closeOtpModal = () => otpModal.style.display = 'none';
+    window.closeOtpModal = () => { if(otpModal) otpModal.style.display = 'none'; }
 
     function updateAuthUI(user) {
-        const adminNavItem = document.getElementById('admin-nav-item');
-        const adminPhone = "923459572281"; // Admin Phone Number
-
-        if (user) {
-            userProfile.style.display = 'flex';
-            loginNavBtn.style.display = 'none';
-            document.getElementById('user-display-name').innerText = user.name.split(' ')[0];
-            document.getElementById('panel-user-name').innerText = user.name;
-            document.getElementById('panel-user-phone').innerText = user.phone;
-            
-            // Show Sidebar & Learning Section
-            sidebarElement.style.display = 'block';
-            sidebarElement.classList.remove('collapsed');
-            mainContent.classList.remove('expanded');
-            
-            // Hide Landing Page, Show Welcome
-            if (landingSection) landingSection.classList.remove('active');
-            if (welcomeSection) welcomeSection.classList.add('active');
-            
-            // Show Sidebar Toggle
-            document.getElementById('sidebar-toggle').style.display = 'block';
-
-            // Show/Hide Admin Menu
-            if (user.phone === adminPhone) {
-                adminNavItem.style.display = 'block';
-            } else {
-                adminNavItem.style.display = 'none';
-            }
-
-            // Auto-fill contact phone if exists
-            const contactPhoneInput = document.getElementById('contact-phone');
-            if (contactPhoneInput) contactPhoneInput.value = user.phone;
-
-            // Populate Account Settings
-            document.getElementById('setting-user-name').innerText = user.name;
-            document.getElementById('setting-user-phone').innerText = user.phone;
-
-            // Render user submissions
-            renderSubmissions(user.phone);
-        } else {
-            userProfile.style.display = 'none';
-            loginNavBtn.style.display = 'flex';
-            adminNavItem.style.display = 'none';
-            
-            // Hide Sidebar & show Landing Page
-            sidebarElement.style.display = 'none';
-            mainContent.classList.add('expanded');
-            
-            if (landingSection) landingSection.classList.add('active');
-            if (welcomeSection) welcomeSection.classList.remove('active');
-            
-            // Hide Sidebar Toggle
-            document.getElementById('sidebar-toggle').style.display = 'none';
-        }
+        // Logic removed temporarily
     }
 
     const savedUser = JSON.parse(localStorage.getItem('currentUser'));
-    updateAuthUI(savedUser);
+    // updateAuthUI(savedUser);
+    */
 
     // --- SMS OTP Integration (Simulation/Placeholder) ---
     async function sendSMSOTP(phone, otpCode) {
